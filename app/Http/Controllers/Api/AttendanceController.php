@@ -126,12 +126,17 @@ class AttendanceController extends Controller
                 ], 200);
             }
         } else {
-            if ($input['status'] == 'in') {
+            if ($user->status_absen == 'not_yet') {
+                return response()->json([
+                    "success" => false,
+                    "message" => "anda belum clock in hari ini",
+                ], 200);
+            } else if ($user->status_absen == 'clock_in') {
                 return response()->json([
                     "success" => false,
                     "message" => "anda sudah clock in hari ini",
                 ], 200);
-            } else {
+            } else if ($user->status_absen == 'clock_out') {
                 return response()->json([
                     "success" => false,
                     "message" => "anda sudah clock out hari ini",
