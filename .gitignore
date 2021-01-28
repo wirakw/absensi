@@ -1,0 +1,9 @@
+/vendor
+/.idea
+Homestead.json
+Homestead.yaml
+.env
+.phpunit.result.cache
+/public/app/user
+psikolog-90a76-firebase-adminsdk-ab1ju-e4f2ffccea.json
+fcmtest-626e5-firebase-adminsdk-zsjsa-6970eee312.json
