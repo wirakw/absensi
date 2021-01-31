@@ -13,7 +13,6 @@ class Reimbursement extends Model
      */
     protected $table = 'reimbursements';
     public $timestamps = true;
-    protected $appends = ['reimbursement_photo_url'];
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +20,7 @@ class Reimbursement extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'user_id', 'reimbursement_date', 'name', 'description', 'reimbursement_photo', 'created_at', 'updated_at',
+        'id', 'user_id', 'reimbursement_date', 'reimbursement_type_id', 'description', 'created_at', 'updated_at',
     ];
 
     protected $hidden = [
@@ -33,11 +32,18 @@ class Reimbursement extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    public function getReimbursementPhotoUrlAttribute()
+    public function detail()
     {
-        if (!isset($this->reimbursement_photo)) {
-            $this->reimbursement_photo = 'default.jpg';
-        }
-        return url('app/user/reimbursement/' . $this->reimbursement_photo);
+        return $this->hasMany('App\Models\ReimbursementDetail');
+    }
+    
+    public function photos()
+    {
+        return $this->hasMany('App\Models\ReimbursementPhoto');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo('App\Models\ReimbursementType');
     }
 }
