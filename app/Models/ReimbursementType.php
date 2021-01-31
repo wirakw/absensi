@@ -11,7 +11,7 @@ class ReimbursementType extends Model
      *
      * @var string
      */
-    protected $table = 'reimbursement_photos';
+    protected $table = 'reimbursement_type';
     public $timestamps = false;
 
     /**

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Reimbursement;
 use App\Models\ReimbursementDetail;
 use App\Models\ReimbursementPhoto;
+use App\Models\ReimbursementType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -171,5 +172,40 @@ class ReimbursementController extends Controller
             "message" => "gagal reimbursement",
         ], 200);
 
+    }
+
+    /**
+     * chat.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function reimbursementType(Request $request)
+    {
+        $id = $request->get("id");
+
+        if (isset($id)) {
+            $data = ReimbursementType::where('id', $id)->first();
+
+            if (!isset($data)) {
+                return response()->json([
+                    "success" => false,
+                    "message" => "data tidak ditemukan",
+                ], 200);
+            }
+            return response()->json([
+                "success" => true,
+                "message" => "success",
+                "data" => $data,
+            ], 200);
+        }
+
+        $datas = ReimbursementType::get();
+
+        return response()->json([
+            "success" => true,
+            "message" => "success",
+            "data" => $datas,
+        ], 200);
     }
 }
