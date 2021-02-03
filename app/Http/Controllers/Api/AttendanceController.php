@@ -156,11 +156,9 @@ class AttendanceController extends Controller
         $updateUser = User::where('status_absen', 'clock_out')->update([
             'status_absen' => 'not_yet',
         ]);
-        if ($updateUser) {
-            return response()->json([
-                "success" => true,
-                "message" => 'success reset attendance',
-            ], 200);
-        }
+        return response()->json([
+            "success" => true,
+            "message" => 'success reset attendance',
+        ], 200);
     }
 }
