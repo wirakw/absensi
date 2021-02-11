@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Reimbursement;
 use App\Models\ReimbursementDetail;
+use App\Models\reimbursementItem;
 use App\Models\ReimbursementPhoto;
 use App\Models\ReimbursementType;
 use App\Models\User;
@@ -210,6 +211,47 @@ class ReimbursementController extends Controller
         }
 
         $datas = ReimbursementType::get();
+
+        return response()->json([
+            "success" => true,
+            "message" => "success",
+            "data" => $datas,
+        ], 200);
+    }
+
+        /**
+     * chat.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function reimbursementItem(Request $request)
+    {
+        $id = $request->get("id");
+        $reimbursement_type_id = $request->get("reimbursement_type_id");
+        if (!isset($reimbursement_type_id)) {
+            return response()->json([
+                "success" => false,
+                "message" => "param reimbursement_type_id tidak boleh kosong",
+            ], 200);
+        }
+        if (isset($id)) {
+            $data = ReimbursementItem::where('id', $id)->first();
+
+            if (!isset($data)) {
+                return response()->json([
+                    "success" => false,
+                    "message" => "data tidak ditemukan",
+                ], 200);
+            }
+            return response()->json([
+                "success" => true,
+                "message" => "success",
+                "data" => $data,
+            ], 200);
+        }
+
+        $datas = ReimbursementItem::where('reimbursement_type_id', $reimbursement_type_id)->get();
 
         return response()->json([
             "success" => true,

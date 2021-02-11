@@ -39,6 +39,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->get('reimbursement', 'Api\ReimbursementController@index');
     $router->post('reimbursement', 'Api\ReimbursementController@addPhoto');
     $router->get('reimbursementType', 'Api\ReimbursementController@reimbursementType');
+    $router->get('reimbursementItem', 'Api\ReimbursementController@reimbursementItem');
     
     $router->post('status', 'Api\UserController@status');
     //user
