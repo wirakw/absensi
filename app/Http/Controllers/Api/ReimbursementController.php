@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Reimbursement;
 use App\Models\ReimbursementDetail;
-use App\Models\reimbursementItem;
+use App\Models\ReimbursementItem;
 use App\Models\ReimbursementPhoto;
 use App\Models\ReimbursementType;
 use App\Models\User;
