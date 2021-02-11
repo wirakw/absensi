@@ -138,7 +138,8 @@ class ReimbursementController extends Controller
         $input['user_id'] = $user->id;
         $create = Reimbursement::create($input);
         if ($create) {
-            if ($files = $request->file('images')) {
+            if ($files=$request->file('images')) {
+                $photo = [];
                 foreach ($files as $file) {
                     $name = $create['id'] . '-' . time() . '.' . $file->getClientOriginalExtension();
                     $file->move('app/user/reimbursement', $name);
@@ -148,25 +149,33 @@ class ReimbursementController extends Controller
                             'reimbursement_id' => $create['id'],
                             'reimbursement_photo' => $name,
                         ]);
+                    $imageUrl = url('app/user/reimbursement/' . $name);
+                    array_push($photo, $imageUrl);
                 }
-            }
 
-            foreach ($input['items'] as $item) {
-                ReimbursementDetail::insert(
-                    [
-                        'reimbursement_id' => $create['id'],
-                        'reimbursement_item_id' => $item['reimbursement_item_id'],
-                        'pengajuan' => $item['pengajuan'],
-                    ]);
+                foreach ($input['items'] as $item) {
+                    ReimbursementDetail::insert(
+                        [
+                            'reimbursement_id' => $create['id'],
+                            'reimbursement_item_id' => $item['reimbursement_item_id'],
+                            'pengajuan' => $item['pengajuan'],
+                        ]);
+                }
+
+                $create->items = $input['items'];
+                $create->photos = $photo;
+                return response()->json([
+                    "success" => true,
+                    "message" => 'success reimbursement',
+                    "data" => $create,
+                ], 201);
+            } else {
+                return response()->json([
+                    "success" => false,
+                    "message" => "tidak ada photo",
+                ], 200);
             }
-            $create->items = $input['items'];
-            return response()->json([
-                "success" => true,
-                "message" => 'success reimbursement',
-                "data" => $create,
-            ], 201);
         }
-
         return response()->json([
             "success" => false,
             "message" => "gagal reimbursement",
